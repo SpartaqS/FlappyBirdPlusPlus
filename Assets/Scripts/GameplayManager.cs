@@ -33,24 +33,29 @@ namespace FlappyBirdPlusPlus
             GameObject newPipe = Instantiate(pipePrefab, transform);
 
             Transform bottomPipe = newPipe.transform.Find("PipeBottom");
-            bottomPipe.GetComponent<SpriteRenderer>().sprite = pipeToCreate.bottomPipe.PipeSprite;
+            SpriteRenderer currentSprite = bottomPipe.GetComponent<SpriteRenderer>();
+            currentSprite.sprite = pipeToCreate.bottomPipe.PipeSprite;
+            currentSprite.color = pipeToCreate.bottomPipe.PipeColor;
+            
             Transform topPipe = newPipe.transform.Find("PipeTop");
-            topPipe.GetComponent<SpriteRenderer>().sprite = pipeToCreate.topPipe.PipeSprite;
+            currentSprite = topPipe.GetComponent<SpriteRenderer>();
+            currentSprite.sprite = pipeToCreate.topPipe.PipeSprite;
+            currentSprite.color = pipeToCreate.topPipe.PipeColor;
         }
 
         private Pipe ObtainPipe()
-        {
+        {            
             List<Pipe> avaliablePipes = new List<Pipe>();
             foreach(Pipe pipe in pipeTypes)
             {
                 if(pipe.MinimumScore <= score && (!pipe.RestrictMaximumScore || pipe.MaximumScore >= score))
                 {
-                    avaliablePipes.Add(pipe);
+                    avaliablePipes.Add(pipe);         
                 }                
-            }            
+            }
 
             int selectedPipeIndex = Random.Range(0, avaliablePipes.Count - 1);
-
+                        
             return avaliablePipes[selectedPipeIndex];
         }
     }

@@ -8,8 +8,8 @@ namespace FlappyBirdPlusPlus
 {
     public class GameSceneInitializer : MonoBehaviour
     {
-        [SerializeField] GameSettings gameSettings;
-        [SerializeField] Transform startingPosition;
+        [SerializeField] GameSettings gameSettings = null;
+        [SerializeField] Transform startingPosition= null;
         [SerializeField] GameObject pipePrefab = null;
         // Start is called before the first frame update
         void Start()
