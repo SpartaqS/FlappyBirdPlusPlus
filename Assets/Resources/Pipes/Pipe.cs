@@ -8,12 +8,9 @@ namespace FlappyBirdPlusPlus
     public class Pipe : ScriptableObject
     {
         [Header("Visuals")]
-        [SerializeField] [Tooltip("The texture of the upper pipe")]
-        private Texture2D topPipeTexture;
-        public Texture2D TopPipe { get => topPipeTexture; }
-        [SerializeField] [Tooltip("The texture of the lower pipe")]
-        private Texture2D bottomPipeTexture;
-        public Texture2D BottomPipe { get => bottomPipeTexture; }
+
+        public PipeVisuals topPipe = new PipeVisuals();
+        public PipeVisuals bottomPipe = new PipeVisuals();
 
         [Header("Spawning")]
         [SerializeField] [Tooltip("The lowest score that the player has to achieve so that this pipe can appear")] [Min(0)]
@@ -33,5 +30,20 @@ namespace FlappyBirdPlusPlus
         [SerializeField] [Tooltip("How likely should this pipe configuration appear if there are many possible")] [Min(1)]
         private int weight = 1; 
         public int Weight { get => weight; }
+
+        [System.Serializable]
+        public class PipeVisuals
+        {
+            [SerializeField]
+            [Tooltip("The texture of the pipe")]
+            private Texture2D pipeTexture;
+            public Texture2D PipeTexture { get => pipeTexture; set => pipeTexture = value; }
+
+            [SerializeField]
+            [Tooltip("The color/tint of the pipe")]
+            private Color32 pipeColor = new Color32(255, 255, 255, 255);
+            public Color32 PipeColor { get => pipeColor; }
+        }
+
     }
 }

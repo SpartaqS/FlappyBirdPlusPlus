@@ -12,8 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebd6381d6cd268a42b0af03f158703d1, type: 3}
   m_Name: Pipe_Default
   m_EditorClassIdentifier: 
-  topPipeTexture: {fileID: 2800000, guid: 03e3f58f17f83ca4caa6ad3214918774, type: 3}
-  bottomPipeTexture: {fileID: 2800000, guid: f1d21366a767cd24b821c0c10ef555ea, type: 3}
+  topPipe:
+    pipeTexture: {fileID: 2800000, guid: 03e3f58f17f83ca4caa6ad3214918774, type: 3}
+    pipeColor:
+      serializedVersion: 2
+      rgba: 4294967295
+  bottomPipe:
+    pipeTexture: {fileID: 2800000, guid: f1d21366a767cd24b821c0c10ef555ea, type: 3}
+    pipeColor:
+      serializedVersion: 2
+      rgba: 4294967295
   minimumScore: 0
   restrictMaximumScore: 0
   maximumScore: 0

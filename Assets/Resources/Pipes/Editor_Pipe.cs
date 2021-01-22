@@ -14,8 +14,17 @@ namespace FlappyBirdPlusPlus
 
             Pipe pipe = (Pipe)target; // get access to fields
 
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("topPipeTexture"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("bottomPipeTexture"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("topPipe"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("bottomPipe"));
+
+            if(pipe.topPipe.PipeTexture == null)
+            {
+                pipe.topPipe.PipeTexture = Resources.Load<Texture2D>("Textures/DefaultPipeTop");
+            }
+            if (pipe.bottomPipe.PipeTexture == null)
+            {
+                pipe.bottomPipe.PipeTexture = Resources.Load<Texture2D>("Textures/DefaultPipeBottom");
+            }
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("minimumScore"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("restrictMaximumScore"));
