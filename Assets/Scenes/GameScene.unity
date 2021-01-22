@@ -801,6 +801,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1428770772}
   - component: {fileID: 1428770773}
+  - component: {fileID: 1428770774}
   m_Layer: 0
   m_Name: GameplayManager
   m_TagString: Untagged
@@ -836,6 +837,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameSettings: {fileID: 11400000, guid: cd3bd5e5034a48a45bd578771202cf44, type: 2}
   startingPosition: {fileID: 549512727}
+  pipePrefab: {fileID: 4764833180320130839, guid: 9ca16bbd8ba80334a91cb59b653eaaa8,
+    type: 3}
+--- !u!114 &1428770774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428770771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20174bbc89e58f244a1c28422e9c1003, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4764833179271964574
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -902,6 +917,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pipe
+      objectReference: {fileID: 0}
+    - target: {fileID: 4764833180320130839, guid: 9ca16bbd8ba80334a91cb59b653eaaa8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4764833180430893601, guid: 9ca16bbd8ba80334a91cb59b653eaaa8,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4764833180430893601, guid: 9ca16bbd8ba80334a91cb59b653eaaa8,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4764833180430893601, guid: 9ca16bbd8ba80334a91cb59b653eaaa8,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ca16bbd8ba80334a91cb59b653eaaa8, type: 3}

@@ -36,8 +36,8 @@ namespace FlappyBirdPlusPlus
         {
             [SerializeField]
             [Tooltip("The texture of the pipe")]
-            private Texture2D pipeTexture;
-            public Texture2D PipeTexture { get => pipeTexture; set => pipeTexture = value; }
+            private Sprite pipeSprite;
+            public Sprite PipeSprite { get => pipeSprite; set => pipeSprite = value; }
 
             [SerializeField]
             [Tooltip("The color/tint of the pipe")]

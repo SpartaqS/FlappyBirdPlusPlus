@@ -17,13 +17,13 @@ namespace FlappyBirdPlusPlus
             EditorGUILayout.PropertyField(serializedObject.FindProperty("topPipe"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("bottomPipe"));
 
-            if(pipe.topPipe.PipeTexture == null)
+            if(pipe.topPipe.PipeSprite == null)
             {
-                pipe.topPipe.PipeTexture = Resources.Load<Texture2D>("Textures/DefaultPipeTop");
+                pipe.topPipe.PipeSprite = Resources.Load<Sprite>("Textures/DefaultPipeTop");
             }
-            if (pipe.bottomPipe.PipeTexture == null)
+            if (pipe.bottomPipe.PipeSprite == null)
             {
-                pipe.bottomPipe.PipeTexture = Resources.Load<Texture2D>("Textures/DefaultPipeBottom");
+                pipe.bottomPipe.PipeSprite = Resources.Load<Sprite>("Textures/DefaultPipeBottom");
             }
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("minimumScore"));
