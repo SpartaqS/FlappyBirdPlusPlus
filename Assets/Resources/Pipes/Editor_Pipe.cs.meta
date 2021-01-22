@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: abba15001a89800448d1c081c1c3ed71
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - topPipeTexture: {fileID: 2800000, guid: 03e3f58f17f83ca4caa6ad3214918774, type: 3}
+  - bottomPipeTexture: {fileID: 2800000, guid: f1d21366a767cd24b821c0c10ef555ea, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
