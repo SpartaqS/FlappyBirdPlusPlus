@@ -7,8 +7,10 @@ namespace FlappyBirdPlusPlus
 {
     public class BirdController : MonoBehaviour
     {
-        private Action onDeath;
+        public Action onDeath;
+        public Action tryUseBomb;
         private Rigidbody2D birdRigidbody = null;
+        public Rigidbody2D BirdRigidbody { get => birdRigidbody; }
 
         [SerializeField]
         private float FLAP_AMOUNT = 100f;
@@ -30,7 +32,7 @@ namespace FlappyBirdPlusPlus
         {
             timeSinceLastTap += Time.deltaTime;
             if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
+            {                
                 birdRigidbody.velocity = Vector2.up * FLAP_AMOUNT;
 
                 if (timeSinceLastTap > TIME_FOR_DOUBLE_TAP)
@@ -45,6 +47,7 @@ namespace FlappyBirdPlusPlus
                 if (quickTapCount == 1)
                 {
                     Debug.Log("DOUBLE TAP DETECTED");
+                    tryUseBomb?.Invoke();
                 }
 
                 timeSinceLastTap = 0;
@@ -56,7 +59,7 @@ namespace FlappyBirdPlusPlus
             Debug.Log("Bird Collided with: " + collision.gameObject);
             onDeath?.Invoke();
         }
-
+        /*
         public void SubscribeToEvents(Action onDeathSubbingMethod)
         {
             onDeath += onDeathSubbingMethod;
@@ -65,6 +68,6 @@ namespace FlappyBirdPlusPlus
         public void UnsubscribeFromEvents(Action onDeathSubbedMethod)
         {
             onDeath -= onDeathSubbedMethod;
-        }
+        }*/
     }
 }

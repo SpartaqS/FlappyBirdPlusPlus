@@ -6,8 +6,11 @@ namespace FlappyBirdPlusPlus
 {
     public class GameplayManager : MonoBehaviour
     {
+        public System.Action<int, int> updateBombProgress;
+        public System.Action useBomb;
+
         List<Pipe> pipeTypes = new List<Pipe>(); // all pipe types (created using the Pipe ScriptableObject)
-        GameObject playerObject = null;
+        BirdController playerController = null;
 
         ObjectPool pipeObjectPool = null; // handles inactive pipes (re-use existing pipes or create/destroy more on-demand)
         List<ActivePipe> activePipes = new List<ActivePipe>(); // to handle active pipes
@@ -34,9 +37,12 @@ namespace FlappyBirdPlusPlus
         int scoreForExtraBomb = 2;
         int maxBombCount = 3;       
 
-        public void Initialize(GameObject playerObject, List<Pipe> pipeTypes, ObjectPool pipeObjectPool, float birdPositionX, GameSettings gameSettings)
+        public void Initialize(BirdController playerController, List<Pipe> pipeTypes, ObjectPool pipeObjectPool, float birdPositionX, GameSettings gameSettings)
         {
-            this.playerObject = playerObject;
+            this.playerController = playerController;
+
+            playerController.tryUseBomb += HandleBombRequest;
+
             this.pipeTypes = pipeTypes;       
             this.pipeObjectPool = pipeObjectPool;
             this.birdPositionX = birdPositionX;
@@ -139,16 +145,35 @@ namespace FlappyBirdPlusPlus
 
         private void TryObtainBomb()
         {
-            if(bombCount < maxBombCount)
+            if (bombCount < maxBombCount)
             {
                 ++bombProgress;
-                if(bombProgress >= scoreForExtraBomb)
+                if (bombProgress >= scoreForExtraBomb)
                 {
                     bombProgress -= scoreForExtraBomb;
                     ++bombCount;
                 }
+                updateBombProgress?.Invoke(bombProgress, bombCount);
             }
         }
+        #endregion
+
+        #region Bomb Handling
+        private void HandleBombRequest()
+        {
+            if(bombCount > 0)
+            {
+                --bombCount;
+                updateBombProgress?.Invoke(bombProgress, bombCount);
+                useBomb?.Invoke();
+
+                foreach(ActivePipe pipe in activePipes)
+                {
+                    pipe.representedPipe.gameObject.SetActive(false);
+                }
+            }
+        }
+
         #endregion
 
         private class ActivePipe
