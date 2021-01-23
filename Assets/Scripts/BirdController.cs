@@ -7,6 +7,8 @@ namespace FlappyBirdPlusPlus
 {
     public class BirdController : MonoBehaviour
     {
+        bool isAlive = true;//keep track whether we have died or not
+
         public Action onDeath;
         public Action tryUseBomb;
         private Rigidbody2D birdRigidbody = null;
@@ -30,32 +32,36 @@ namespace FlappyBirdPlusPlus
 
         void Update()
         {
-            timeSinceLastTap += Time.deltaTime;
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {                
-                birdRigidbody.velocity = Vector2.up * FLAP_AMOUNT;
-
-                if (timeSinceLastTap > TIME_FOR_DOUBLE_TAP)
+            if (isAlive)
+            {
+                timeSinceLastTap += Time.deltaTime;
+                if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    quickTapCount = 0;
-                }
-                else
-                {
-                    quickTapCount++;
-                }
+                    birdRigidbody.velocity = Vector2.up * FLAP_AMOUNT;
 
-                if (quickTapCount == 1)
-                {
-                    Debug.Log("DOUBLE TAP DETECTED");
-                    tryUseBomb?.Invoke();
-                }
+                    if (timeSinceLastTap > TIME_FOR_DOUBLE_TAP)
+                    {
+                        quickTapCount = 0;
+                    }
+                    else
+                    {
+                        quickTapCount++;
+                    }
 
-                timeSinceLastTap = 0;
+                    if (quickTapCount == 1)
+                    {
+                        Debug.Log("DOUBLE TAP DETECTED");
+                        tryUseBomb?.Invoke();
+                    }
+
+                    timeSinceLastTap = 0;
+                }
             }
         }
 
         private void OnCollisionEnter2D(Collision2D collision) // if we collide with anyhting then we should die (destroyed pipes will probably need to have their colliders turned off or something like that)
         {
+            isAlive = false;
             Debug.Log("Bird Collided with: " + collision.gameObject);
             onDeath?.Invoke();
         }

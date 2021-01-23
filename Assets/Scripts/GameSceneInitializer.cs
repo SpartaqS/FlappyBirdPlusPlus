@@ -12,6 +12,9 @@ namespace FlappyBirdPlusPlus
         [SerializeField] Transform startingPosition= null;
         [SerializeField] GameObject pipePrefab = null;
         [SerializeField] GameObject explosionPrefab = null;
+
+        [SerializeField] GameOverDisplay gameOverDisplay = null;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -33,6 +36,9 @@ namespace FlappyBirdPlusPlus
             // hook up UI
             FindObjectOfType<BombDisplay>().Initialize(gameSettings, gameplayManager);
             FindObjectOfType<ScoreDisplay>().Initialize(gameplayManager);
+
+            gameOverDisplay.Initialize(gameplayManager);
+            gameOverDisplay.gameObject.SetActive(false);
 
             Destroy(this); // no need to keep the initializer around
         }

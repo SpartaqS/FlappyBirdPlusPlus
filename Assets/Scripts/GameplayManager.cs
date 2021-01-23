@@ -9,6 +9,7 @@ namespace FlappyBirdPlusPlus
         public System.Action<int, int> updateBombProgress;
         public System.Action<int> updateScore;
         public System.Action useBomb;
+        public System.Action<int> announceEndGame;
 
         List<Pipe> pipeTypes = new List<Pipe>(); // all pipe types (created using the Pipe ScriptableObject)
         BirdController playerController = null;
@@ -44,6 +45,7 @@ namespace FlappyBirdPlusPlus
             this.playerController = playerController;
 
             playerController.tryUseBomb += HandleBombRequest;
+            playerController.onDeath += HandleDeath;
 
             this.pipeTypes = pipeTypes;       
             this.pipeObjectPool = pipeObjectPool;
@@ -184,6 +186,16 @@ namespace FlappyBirdPlusPlus
                     topPipe.AddForce(DifferenceVector * EXPLOSION_MAGNITUDE / Mathf.Pow(DifferenceVector.magnitude, 1), ForceMode2D.Force);*/
                 }
             }
+        }
+
+        #endregion
+
+        #region End Game Handling
+
+        private void HandleDeath()
+        {
+            speed = 0f; // effectively stop the game
+            announceEndGame?.Invoke(score);
         }
 
         #endregion
