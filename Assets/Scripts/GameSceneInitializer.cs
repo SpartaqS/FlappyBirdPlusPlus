@@ -28,7 +28,7 @@ namespace FlappyBirdPlusPlus
             Destroy(startingPosition.gameObject);
 
             ExplosionManager explosionManager = GetComponent<ExplosionManager>();
-            explosionManager.Initialize(gameplayManager, playerController, explosionPrefab);
+            explosionManager.Initialize(gameplayManager, playerController, new ObjectPool(explosionPrefab,1,transform), gameSettings);
 
             // hook up UI
             FindObjectOfType<BombDisplay>().Initialize(gameSettings, gameplayManager);

@@ -34,8 +34,8 @@ public class ObjectPool
         else
         {
             currentObject = InactiveObjects.Pop();
-            currentObject.SetActive(true);
         }
+        currentObject.SetActive(true);
         return currentObject;
     }
     public void ReturnObjectToPool(GameObject returnedItem)

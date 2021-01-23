@@ -35,7 +35,8 @@ namespace FlappyBirdPlusPlus
         [SerializeField] int bombCount;
         [SerializeField] int bombProgress;
         int scoreForExtraBomb = 2;
-        int maxBombCount = 3;       
+        int maxBombCount = 3;
+        const float EXPLOSION_MAGNITUDE = 10000f;
 
         public void Initialize(BirdController playerController, List<Pipe> pipeTypes, ObjectPool pipeObjectPool, float birdPositionX, GameSettings gameSettings)
         {
@@ -97,6 +98,8 @@ namespace FlappyBirdPlusPlus
             currentSprite.color = pipeToCreate.topPipe.PipeColor;
 
             topPipe.transform.localPosition = new Vector3(0f, PIPE_HEIGHT/2 + gapSize / 2, 0f);
+            /*topPipe.transform.rotation = Quaternion.identity;
+            topPipe.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;*/
             bottomPipe.transform.localPosition = new Vector3(0f, -PIPE_HEIGHT/2 - gapSize / 2, 0f);
 
             activePipes.Add(new ActivePipe(newPipe.transform));
@@ -169,7 +172,14 @@ namespace FlappyBirdPlusPlus
 
                 foreach(ActivePipe pipe in activePipes)
                 {
+                    pipe.hasBeenPassed = true; // score only for passing pipes
                     pipe.representedPipe.gameObject.SetActive(false);
+                    /*Rigidbody2D topPipe = pipe.representedPipe.Find("PipeTop").GetComponent<Rigidbody2D>();
+                    topPipe.bodyType = RigidbodyType2D.Dynamic;
+
+                    Vector2 DifferenceVector = topPipe.position - new Vector2(playerController.transform.position.x, playerController.transform.position.y);
+
+                    topPipe.AddForce(DifferenceVector * EXPLOSION_MAGNITUDE / Mathf.Pow(DifferenceVector.magnitude, 1), ForceMode2D.Force);*/
                 }
             }
         }

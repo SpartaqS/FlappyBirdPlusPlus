@@ -18,5 +18,5 @@ MonoBehaviour:
   gravityScale: 20
   pipeGapSize: 50
   pipeSpawnTimer: 2
-  scoreForExtraBomb: 4
-  maxBombCount: 2
+  scoreForExtraBomb: 1
+  maxBombCount: 3
