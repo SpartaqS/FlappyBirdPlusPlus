@@ -61,9 +61,16 @@ namespace FlappyBirdPlusPlus
 
         private void OnCollisionEnter2D(Collision2D collision) // if we collide with anyhting then we should die (destroyed pipes will probably need to have their colliders turned off or something like that)
         {
-            isAlive = false;
-            Debug.Log("Bird Collided with: " + collision.gameObject);
-            onDeath?.Invoke();
+            if (isAlive)
+            {
+                isAlive = false;
+                Debug.Log("Bird Collided with: " + collision.gameObject);
+                onDeath?.Invoke();
+
+                // stop the trail from moving                             
+                ParticleSystem.MainModule main = GetComponent<ParticleSystem>().main;
+                main.simulationSpeed = 0f;
+            }
         }
         /*
         public void SubscribeToEvents(Action onDeathSubbingMethod)
