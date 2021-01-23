@@ -6,33 +6,54 @@ namespace FlappyBirdPlusPlus
 {
     public class GameplayManager : MonoBehaviour
     {
-        List<Pipe> pipeTypes = new List<Pipe>();
-        GameObject playerObject = null;        
+        List<Pipe> pipeTypes = new List<Pipe>(); // all pipe types (created using the Pipe ScriptableObject)
+        GameObject playerObject = null;
 
-        ObjectPool pipeObjectPool = null;
-        List<ActivePipe> activePipes = new List<ActivePipe>();
+        ObjectPool pipeObjectPool = null; // handles inactive pipes (re-use existing pipes or create/destroy more on-demand)
+        List<ActivePipe> activePipes = new List<ActivePipe>(); // to handle active pipes
+
+        /* "Bird" parameters */
         [SerializeField] int score;
-        const float DISPOSE_PIPE_POSITION_X = -100f;
-        const float SPAWN_PIPE_POSITION_X = 100f;
+        float speed;
         float birdPositionX;
 
-        float speed = 30f;
+        /* Pipe spawning parameters */
+        const float PIPE_HEIGHT = 160f;
+
+        const float DISPOSE_PIPE_POSITION_X = -100f;
+        const float SPAWN_PIPE_POSITION_X = 100f;
+        float latestY;
+        float gapSize;
 
         float timer = 0f;
-        float timerMax = 3f; // how long should we wait for a new pipe to be spawned
+        float timerMax; // how long should we wait for a new pipe to be spawned        
 
-        public void Initialize(GameObject playerObject, List<Pipe> pipeTypes, ObjectPool pipeObjectPool, float birdPositionX)
+        /* Bomb related fields */
+        [SerializeField] int bombCount;
+        [SerializeField] int bombProgress;
+        int scoreForExtraBomb = 2;
+        int maxBombCount = 3;       
+
+        public void Initialize(GameObject playerObject, List<Pipe> pipeTypes, ObjectPool pipeObjectPool, float birdPositionX, GameSettings gameSettings)
         {
             this.playerObject = playerObject;
-            this.pipeTypes = pipeTypes;            
+            this.pipeTypes = pipeTypes;       
             this.pipeObjectPool = pipeObjectPool;
             this.birdPositionX = birdPositionX;
 
             Debug.Log("Loaded " + pipeTypes.Count + " distinct pipe types");
 
-            score = 0;
+            speed = gameSettings.Speed;
+            timerMax = gameSettings.PipeSpawnTimer;
 
-            CreatePipe(SPAWN_PIPE_POSITION_X);
+            scoreForExtraBomb = gameSettings.ScoreForExtraBomb;
+            maxBombCount = gameSettings.MaxBombCount;
+
+            score = 0;
+            latestY = 0f;
+            gapSize = gameSettings.PipeGapSize;
+
+            CreatePipe(SPAWN_PIPE_POSITION_X, latestY, gapSize);
         }
 
         private void Update()
@@ -43,22 +64,23 @@ namespace FlappyBirdPlusPlus
             if(timer >= timerMax)
             {
                 timer -= timerMax;
-                CreatePipe(SPAWN_PIPE_POSITION_X);
+                CreatePipe(SPAWN_PIPE_POSITION_X, latestY, gapSize);
             }
         }
 
 
         #region PipeCreation
 
-        private void CreatePipe(float x)
+        private void CreatePipe(float x, float y, float gapSize)
         {
             Pipe pipeToCreate = ObtainPipe();
 
             GameObject newPipe = pipeObjectPool.TakeObjectFromPool();
 
-            newPipe.transform.position = new Vector3(x, 0, 0);
+            newPipe.transform.position = new Vector3(x, y, 0f);
 
             Transform bottomPipe = newPipe.transform.Find("PipeBottom");
+
             SpriteRenderer currentSprite = bottomPipe.GetComponent<SpriteRenderer>();
             currentSprite.sprite = pipeToCreate.bottomPipe.PipeSprite;
             currentSprite.color = pipeToCreate.bottomPipe.PipeColor;
@@ -67,6 +89,9 @@ namespace FlappyBirdPlusPlus
             currentSprite = topPipe.GetComponent<SpriteRenderer>();
             currentSprite.sprite = pipeToCreate.topPipe.PipeSprite;
             currentSprite.color = pipeToCreate.topPipe.PipeColor;
+
+            topPipe.transform.localPosition = new Vector3(0f, PIPE_HEIGHT/2 + gapSize / 2, 0f);
+            bottomPipe.transform.localPosition = new Vector3(0f, -PIPE_HEIGHT/2 - gapSize / 2, 0f);
 
             activePipes.Add(new ActivePipe(newPipe.transform));
         }
@@ -86,9 +111,9 @@ namespace FlappyBirdPlusPlus
                         
             return avaliablePipes[selectedPipeIndex];
         }
-
         #endregion
 
+        #region Pipe Movement and Logic
         private void MovePipes()
         {
             for (int i = 0; i < activePipes.Count; i++)
@@ -100,6 +125,7 @@ namespace FlappyBirdPlusPlus
                 {
                     currentPipe.hasBeenPassed = true;
                     ++score;
+                    TryObtainBomb();
                 }
 
                 if (currentPipe.representedPipe.position.x <= DISPOSE_PIPE_POSITION_X)
@@ -110,6 +136,20 @@ namespace FlappyBirdPlusPlus
                 }
             }
         }
+
+        private void TryObtainBomb()
+        {
+            if(bombCount < maxBombCount)
+            {
+                ++bombProgress;
+                if(bombProgress >= scoreForExtraBomb)
+                {
+                    bombProgress -= scoreForExtraBomb;
+                    ++bombCount;
+                }
+            }
+        }
+        #endregion
 
         private class ActivePipe
         {
