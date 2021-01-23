@@ -7,6 +7,7 @@ namespace FlappyBirdPlusPlus
     public class GameplayManager : MonoBehaviour
     {
         public System.Action<int, int> updateBombProgress;
+        public System.Action<int> updateScore;
         public System.Action useBomb;
 
         List<Pipe> pipeTypes = new List<Pipe>(); // all pipe types (created using the Pipe ScriptableObject)
@@ -135,6 +136,7 @@ namespace FlappyBirdPlusPlus
                     currentPipe.hasBeenPassed = true;
                     ++score;
                     TryObtainBomb();
+                    updateScore?.Invoke(score);
                 }
 
                 if (currentPipe.representedPipe.position.x <= DISPOSE_PIPE_POSITION_X)

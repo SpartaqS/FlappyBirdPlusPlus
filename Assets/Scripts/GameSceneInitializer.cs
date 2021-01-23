@@ -32,6 +32,7 @@ namespace FlappyBirdPlusPlus
 
             // hook up UI
             FindObjectOfType<BombDisplay>().Initialize(gameSettings, gameplayManager);
+            FindObjectOfType<ScoreDisplay>().Initialize(gameplayManager);
 
             Destroy(this); // no need to keep the initializer around
         }
