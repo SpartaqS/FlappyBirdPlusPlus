@@ -13,6 +13,8 @@ namespace FlappyBirdPlusPlus
         public Action tryUseBomb;
         private Rigidbody2D birdRigidbody = null;
         public Rigidbody2D BirdRigidbody { get => birdRigidbody; }
+        private new Renderer renderer = null;
+        public Renderer Renderer { get => renderer; }
 
         [SerializeField]
         private float FLAP_AMOUNT = 100f;
@@ -26,6 +28,7 @@ namespace FlappyBirdPlusPlus
         private void Awake()
         {
             birdRigidbody = GetComponent<Rigidbody2D>();
+            renderer = GetComponent<Renderer>();
             timeSinceLastTap = TIME_FOR_DOUBLE_TAP * 2; // initialize the time so that the first tap ever is not read as double tap
             quickTapCount = 0;
         }
@@ -61,10 +64,14 @@ namespace FlappyBirdPlusPlus
 
         private void OnCollisionEnter2D(Collision2D collision) // if we collide with anyhting then we should die (destroyed pipes will probably need to have their colliders turned off or something like that)
         {
+            TryToDie();
+        }
+
+        public void TryToDie()
+        {
             if (isAlive)
             {
                 isAlive = false;
-                Debug.Log("Bird Collided with: " + collision.gameObject);
                 onDeath?.Invoke();
 
                 // stop the trail from moving                             
@@ -72,6 +79,7 @@ namespace FlappyBirdPlusPlus
                 main.simulationSpeed = 0f;
             }
         }
+
         /*
         public void SubscribeToEvents(Action onDeathSubbingMethod)
         {

@@ -23,6 +23,8 @@ namespace FlappyBirdPlusPlus
         float birdPositionX;
 
         /* Pipe spawning parameters */
+        bool keepSpawningPipes = true;
+        const float PIPE_WIDTH = 26f;
         const float PIPE_HEIGHT = 160f;
 
         const float DISPOSE_PIPE_POSITION_X = -100f;
@@ -63,6 +65,7 @@ namespace FlappyBirdPlusPlus
             latestY = 0f;
             gapSize = gameSettings.PipeGapSize;
 
+            keepSpawningPipes = true;
             CreatePipe(SPAWN_PIPE_POSITION_X, latestY, gapSize);
         }
 
@@ -74,7 +77,10 @@ namespace FlappyBirdPlusPlus
             if(timer >= timerMax)
             {
                 timer -= timerMax;
-                CreatePipe(SPAWN_PIPE_POSITION_X, latestY, gapSize);
+                if (keepSpawningPipes)
+                {
+                    CreatePipe(SPAWN_PIPE_POSITION_X, latestY, gapSize);
+                }
             }
         }
 
@@ -135,10 +141,18 @@ namespace FlappyBirdPlusPlus
                 
                 if(!currentPipe.hasBeenPassed && currentPipe.representedPipe.position.x <= birdPositionX)
                 {
+                    if (!playerController.Renderer.isVisible) // player is off-screen so they should have hit the pipe
+                    {                        
+                        playerController.TryToDie();
+                        playerController.transform.position = new Vector3(currentPipe.representedPipe.position.x - PIPE_WIDTH * 0.75f, playerController.transform.position.y, playerController.transform.position.z); // move the bird to "simulate" being hit by the pipe collider
+                    }
+                    else
+                    {
+                        ++score;
+                        TryObtainBomb();
+                        updateScore?.Invoke(score);
+                    }
                     currentPipe.hasBeenPassed = true;
-                    ++score;
-                    TryObtainBomb();
-                    updateScore?.Invoke(score);
                 }
 
                 if (currentPipe.representedPipe.position.x <= DISPOSE_PIPE_POSITION_X)
@@ -194,7 +208,8 @@ namespace FlappyBirdPlusPlus
 
         private void HandleDeath()
         {
-            speed = 0f; // effectively stop the game
+            keepSpawningPipes = false;
+            speed = 0f; // stop the bird from "moving"
             announceEndGame?.Invoke(score);
         }
 
