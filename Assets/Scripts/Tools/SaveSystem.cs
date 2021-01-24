@@ -19,12 +19,6 @@ public static class SaveSystem
             }
             loadedScores.Insert(i, loadedValue);
         }
-
-        for(int i = 0; i < loadedScores.Count; i++)
-        {
-            Debug.Log("Loaded Highscore #" + i + " : " + loadedScores[i]);
-        }        
-
         return loadedScores;
     }
 
@@ -34,12 +28,6 @@ public static class SaveSystem
         {
             PlayerPrefs.SetInt("HS" + i, scores[i]);
         }
-
-        for (int i = 0; i < scores.Count; i++)
-        {
-            Debug.Log("Saved Highscore #" + i + " : " + scores[i]);
-        }
-
         PlayerPrefs.Save();
     }
 

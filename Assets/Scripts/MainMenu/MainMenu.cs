@@ -59,13 +59,13 @@ namespace FlappyBirdPlusPlus
 
         public void ButtonCloseHighscores()
         {
+            closeHighscoreButton.interactable = false;
             LeanTween.moveY(highscorePanel.gameObject, highscorePanel.position.y + Screen.height, 1f).setEase(LeanTweenType.easeInBounce).setOnComplete(x => DisableHigscorePanel());
         }
 
         private void DisableHigscorePanel()
         {
-            highscorePanel.gameObject.SetActive(false);
-            closeHighscoreButton.interactable = false;
+            highscorePanel.gameObject.SetActive(false);            
             SetMainMenuButtonsInteractability(true);
         }
 
