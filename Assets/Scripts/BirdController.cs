@@ -9,6 +9,7 @@ namespace FlappyBirdPlusPlus
     {
         bool isAlive = true;//keep track whether we have died or not
 
+        private Action startGame;
         public Action onDeath;
         public Action tryUseBomb;
         private Rigidbody2D birdRigidbody = null;
@@ -16,8 +17,7 @@ namespace FlappyBirdPlusPlus
         private new Renderer renderer = null;
         public Renderer Renderer { get => renderer; }
 
-        [SerializeField]
-        private float FLAP_AMOUNT = 100f;
+        private float flapVelocity = 100f;
         [SerializeField]
         private float TIME_FOR_DOUBLE_TAP = 1f;
         [SerializeField]
@@ -25,22 +25,43 @@ namespace FlappyBirdPlusPlus
         [SerializeField]
         private int quickTapCount;
 
+        public void Initialize(GameSettings gameSettings, Vector3 initialPosition, Action StartGameMethod, Action HintImageMethod)
+        {
+            isAlive = false;
+            birdRigidbody.simulated = false;
+            flapVelocity = gameSettings.FlapVelocity;
+            birdRigidbody.gravityScale = gameSettings.GravityScale;
+            LeanTween.move(gameObject, initialPosition, 1f);// when finished start the game I guess            
+
+            startGame += StartGameMethod;
+            startGame += HintImageMethod;
+            startGame += EnableControl;            
+        }
+
+        private void EnableControl()
+        {
+            isAlive = true;
+            birdRigidbody.simulated = true;
+            timeSinceLastTap = TIME_FOR_DOUBLE_TAP * 2; // initialize the time so that the first tap ever is not read as double tap (so that we can give the bird some initial bombs if we want)
+            quickTapCount = 0;
+        }
+
         private void Awake()
         {
             birdRigidbody = GetComponent<Rigidbody2D>();
             renderer = GetComponent<Renderer>();
-            timeSinceLastTap = TIME_FOR_DOUBLE_TAP * 2; // initialize the time so that the first tap ever is not read as double tap
+            timeSinceLastTap = TIME_FOR_DOUBLE_TAP * 2; // initialize the time so that the first tap ever is not read as double tap (so that we can give the bird some initial bombs if we want)
             quickTapCount = 0;
         }
 
-        void Update()
+        private void Update()
         {
             if (isAlive)
             {
                 timeSinceLastTap += Time.deltaTime;
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    birdRigidbody.velocity = Vector2.up * FLAP_AMOUNT;
+                    birdRigidbody.velocity = Vector2.up * flapVelocity;
 
                     if (timeSinceLastTap > TIME_FOR_DOUBLE_TAP)
                     {
@@ -58,6 +79,15 @@ namespace FlappyBirdPlusPlus
                     }
 
                     timeSinceLastTap = 0;
+                }
+            }
+            else if (!birdRigidbody.simulated) // Have not started the game yet
+            {
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    startGame?.Invoke();
+                    birdRigidbody.velocity = Vector2.up * flapVelocity;
+                    startGame = null;
                 }
             }
         }

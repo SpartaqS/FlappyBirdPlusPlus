@@ -23,7 +23,7 @@ namespace FlappyBirdPlusPlus
         float birdPositionX;
 
         /* Pipe spawning parameters */
-        bool keepSpawningPipes = true;
+        bool keepSpawningPipes = false;
         const float PIPE_WIDTH = 26f;
         const float PIPE_HEIGHT = 160f;
 
@@ -31,6 +31,9 @@ namespace FlappyBirdPlusPlus
         const float SPAWN_PIPE_POSITION_X = 100f;
         float latestY;
         float gapSize;
+        // those two need to be recalculated on each change of speed/gap size to keep the game beatable
+        float maxYAscend;
+        float maxYDrop;
 
         float timer = 0f;
         float timerMax; // how long should we wait for a new pipe to be spawned        
@@ -64,8 +67,12 @@ namespace FlappyBirdPlusPlus
             score = 0;
             latestY = 0f;
             gapSize = gameSettings.PipeGapSize;
+        }
 
+        public void StartGame()
+        {
             keepSpawningPipes = true;
+            timer = 0f;
             CreatePipe(SPAWN_PIPE_POSITION_X, latestY, gapSize);
         }
 
@@ -129,6 +136,12 @@ namespace FlappyBirdPlusPlus
                         
             return avaliablePipes[selectedPipeIndex];
         }
+
+        private void CalculateMaxDropAndAscend()
+        {
+
+        }
+
         #endregion
 
         #region Pipe Movement and Logic

@@ -7,21 +7,26 @@ namespace FlappyBirdPlusPlus
     [CreateAssetMenu]
     public class GameSettings : ScriptableObject
     {
+        [Header("Player")]
         [SerializeField] GameObject playerPrefab = null;
         public GameObject PlayerPrefab { get => playerPrefab; }
 
         [SerializeField] float speed = 30f;
         public float Speed { get => speed; }
 
+        [SerializeField] float flapVelocity = 100f;
+        public float FlapVelocity { get => flapVelocity; }
+
         [SerializeField] float gravityScale = 20f;
         public float GravityScale { get => gravityScale; }
 
+        [Header("Pipes")]
         [SerializeField] float pipeGapSize = 50f;
         public float PipeGapSize { get => pipeGapSize; }
 
         [SerializeField] float pipeSpawnTimer = 3f;
         public float PipeSpawnTimer { get => pipeSpawnTimer; }
-
+        [Header("Bombs")]
         [SerializeField] int scoreForExtraBomb = 2;
         public int ScoreForExtraBomb { get => scoreForExtraBomb; }
 
