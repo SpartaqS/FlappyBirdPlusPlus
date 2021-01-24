@@ -12,7 +12,11 @@ namespace FlappyBirdPlusPlus
         [SerializeField] GameObject boxGameObject = null;
         [SerializeField] TMP_Text finalScoreText = null;
         [SerializeField] TMP_Text highscoreText = null;
+        [SerializeField] Color noHighscoreColor = new Color();
+        [SerializeField] Color newHighscoreColor = new Color();
+
         [SerializeField] RectTransform playAgainButton = null;
+        [SerializeField] RectTransform mainMenuButton = null;
 
         public void Initialize(GameplayManager gameplayManager)
         {
@@ -23,8 +27,10 @@ namespace FlappyBirdPlusPlus
             temp.a = 0f;
             backgroundImage.color = temp;
 
+            finalScoreText.rectTransform.localScale = Vector3.zero; // hide the score text
             highscoreText.rectTransform.localScale = Vector3.zero; // hide the information about the highscore
             playAgainButton.localScale = Vector3.zero; // hide the button
+            mainMenuButton.localScale = Vector3.zero; // hide the button
         }
 
         private void HandleShowEndGame(int finalScore)
@@ -56,7 +62,8 @@ namespace FlappyBirdPlusPlus
                         }
                     }
                     highscoreText.text = "Highscore #" + (i+1) + "!"; // inform the player which spot on the highscore list they have achieved
-                    
+                    highscoreText.color = newHighscoreColor;
+
                     i += highscores.Count;// exit out of the loop
                 }
             }
@@ -66,16 +73,24 @@ namespace FlappyBirdPlusPlus
             if (!hasImprovedHighscores) // if did not get a highscore, then give this message
             {
                 highscoreText.text = "Better luck next time!";
+                highscoreText.color = noHighscoreColor;
             }
 
+            LeanTween.scale(finalScoreText.rectTransform, Vector3.one, 1f).setEase(LeanTweenType.easeOutBounce).setDelay(0.75f); // show the score text
             LeanTween.scale(highscoreText.rectTransform, Vector3.one, 1f).setEase(LeanTweenType.easeOutBounce).setDelay(1f); ; // show whether we got the higscore or not
-            LeanTween.scale(playAgainButton, Vector3.one, 1f).setEase(LeanTweenType.easeOutBounce).setDelay(1.5f); ; // show whether we got the higscore or not
+            LeanTween.scale(playAgainButton, Vector3.one, 1f).setEase(LeanTweenType.easeOutBounce).setDelay(1.5f); ; // show the replay button
+            LeanTween.scale(mainMenuButton, Vector3.one, 1f).setEase(LeanTweenType.easeOutBounce).setDelay(1.75f); ; // show the main menu button
         }
 
         #region Buttons
         public void ButtonStartAgain()
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
+        }
+
+        public void ButtonMainMenu()
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         }
         #endregion
     }
