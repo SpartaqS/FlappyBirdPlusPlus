@@ -76,10 +76,10 @@ namespace FlappyBirdPlusPlus
                 highscoreText.color = noHighscoreColor;
             }
 
-            LeanTween.scale(finalScoreText.rectTransform, Vector3.one, 1f).setEase(LeanTweenType.easeOutBounce).setDelay(0.75f); // show the score text
-            LeanTween.scale(highscoreText.rectTransform, Vector3.one, 1f).setEase(LeanTweenType.easeOutBounce).setDelay(1f); ; // show whether we got the higscore or not
-            LeanTween.scale(playAgainButton, Vector3.one, 1f).setEase(LeanTweenType.easeOutBounce).setDelay(1.5f); ; // show the replay button
-            LeanTween.scale(mainMenuButton, Vector3.one, 1f).setEase(LeanTweenType.easeOutBounce).setDelay(1.75f); ; // show the main menu button
+            LeanTween.scale(finalScoreText.rectTransform, Vector3.one, 1f).setEase(LeanTweenType.easeOutElastic).setDelay(0.75f); // show the score text
+            LeanTween.scale(highscoreText.rectTransform, Vector3.one, 1f).setEase(LeanTweenType.easeOutElastic).setDelay(1f); ; // show whether we got the higscore or not
+            LeanTween.scale(playAgainButton, Vector3.one, 1f).setEase(LeanTweenType.easeOutElastic).setDelay(1.5f); ; // show the replay button
+            LeanTween.scale(mainMenuButton, Vector3.one, 1f).setEase(LeanTweenType.easeOutElastic).setDelay(1.75f); ; // show the main menu button
         }
 
         #region Buttons

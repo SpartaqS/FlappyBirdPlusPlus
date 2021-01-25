@@ -9,10 +9,12 @@ namespace FlappyBirdPlusPlus
     public class MainMenu : MonoBehaviour
     {
         [Header("Main Menu")]
+        [SerializeField] RectTransform titleTransform = null;
         [SerializeField] Button playButton = null;
         [SerializeField] Button seeHighscoreButton = null;
+
         [Header("Highscore Panel")]
-        bool highscoresLoaded = false;
+        bool highscoresLoaded = false;        
         [SerializeField] RectTransform highscorePanel = null;
         [SerializeField] GameObject higscoreDisplayPrefab = null;
         [SerializeField] Transform highscoreContent = null;
@@ -25,21 +27,27 @@ namespace FlappyBirdPlusPlus
             highscorePanel.transform.position += Vector3.up * Screen.height; // move the panel out of the way
             DisableHigscorePanel();
             highscoresLoaded = false;
-            SetMainMenuButtonsInteractability(true);
+
+            titleTransform.localScale = Vector3.zero;
+            playButton.gameObject.transform.localScale = Vector3.zero;
+            seeHighscoreButton.gameObject.transform.localScale = Vector3.zero;
+            ShowMainMenuButtons();
+
         }
-        //LeanTween.scale(highscoreText.rectTransform, Vector3.one, 1f).setEase(LeanTweenType.easeOutBounce).setDelay(1f); ; // show whether we got the higscore or not
-        //LeanTween.scale(playAgainButton, Vector3.one, 1f).setEase(LeanTweenType.easeOutBounce).setDelay(1.5f); ; // show whether we got the higscore or no
 
         #region Buttons
+
         public void ButtonStart()
         {
-            SetMainMenuButtonsInteractability(false);
+            HideMainMenuButtons();
+            //SetMainMenuButtonsInteractability(false);
             UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
         }
 
         public void ButtonHighscores()
         {
-            SetMainMenuButtonsInteractability(false);
+            HideMainMenuButtons();
+            //SetMainMenuButtonsInteractability(false);
             if (!highscoresLoaded) // we need to load the highscores only once  (the only way to change highscore is to play the game and that requires unloading of the MainMenu scene)
             {
                 List<int> highscores = SaveSystem.ReadHighscores();
@@ -65,8 +73,25 @@ namespace FlappyBirdPlusPlus
 
         private void DisableHigscorePanel()
         {
-            highscorePanel.gameObject.SetActive(false);            
+            highscorePanel.gameObject.SetActive(false);
+            ShowMainMenuButtons();
+            //SetMainMenuButtonsInteractability(true);
+        }
+
+        private void ShowMainMenuButtons()
+        {
+            LeanTween.scale(titleTransform.gameObject, Vector3.one, 1f).setEase(LeanTweenType.easeOutElastic);
+            LeanTween.scale(playButton.gameObject, Vector3.one, 1f).setEase(LeanTweenType.easeOutElastic).setDelay(0.25f);
+            LeanTween.scale(seeHighscoreButton.gameObject, Vector3.one, 1f).setEase(LeanTweenType.easeOutElastic).setDelay(0.5f);
             SetMainMenuButtonsInteractability(true);
+        }
+
+        private void HideMainMenuButtons()
+        {
+            LeanTween.scale(titleTransform.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.linear);
+            LeanTween.scale(playButton.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.linear);
+            LeanTween.scale(seeHighscoreButton.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.linear);
+            SetMainMenuButtonsInteractability(false);
         }
 
         private void SetMainMenuButtonsInteractability(bool targetValue)

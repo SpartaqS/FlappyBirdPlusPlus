@@ -18,6 +18,6 @@ MonoBehaviour:
   flapVelocity: 100
   gravityScale: 20
   pipeGapSize: 50
-  pipeSpawnTimer: 2
+  pipeSpawnTimer: 1.5
   scoreForExtraBomb: 10
   maxBombCount: 3
