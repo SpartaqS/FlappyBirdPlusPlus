@@ -18,8 +18,10 @@ namespace FlappyBirdPlusPlus
         public Renderer Renderer { get => renderer; }
 
         private float flapVelocity = 100f;
+        public float FlapVelocity { get => flapVelocity; }
         [SerializeField]
-        private float TIME_FOR_DOUBLE_TAP = 1f;
+        private float TIME_FOR_DOUBLE_TAP = 0.3f; // should be treated as a constant since once it is set in the PlayerBird prefab, it should not be changed during playtime
+        public float TimeForDoubleTap { get => TIME_FOR_DOUBLE_TAP; }
         [SerializeField]
         private float timeSinceLastTap;
         [SerializeField]

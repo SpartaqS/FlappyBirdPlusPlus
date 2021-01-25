@@ -2199,6 +2199,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
+  maxYAscend: 0
+  maxYDrop: 0
   bombCount: 0
   bombProgress: 0
 --- !u!114 &1428770775

@@ -24,15 +24,23 @@ namespace FlappyBirdPlusPlus
 
         /* Pipe spawning parameters */
         bool keepSpawningPipes = false;
+
+        const float MAX_PIPE_Y = 88f;
+        const float MIN_PIPE_Y = -63f;
+
         const float PIPE_WIDTH = 26f;
         const float PIPE_HEIGHT = 160f;
 
         const float DISPOSE_PIPE_POSITION_X = -100f;
         const float SPAWN_PIPE_POSITION_X = 100f;
+        [SerializeField]
         float latestY;
         float gapSize;
+
         // those two need to be recalculated on each change of speed/gap size to keep the game beatable
+        [SerializeField]
         float maxYAscend;
+        [SerializeField]
         float maxYDrop;
 
         float timer = 0f;
@@ -66,11 +74,12 @@ namespace FlappyBirdPlusPlus
 
             score = 0;
             latestY = 0f;
-            gapSize = gameSettings.PipeGapSize;
+            gapSize = gameSettings.PipeGapSize;    
         }
 
         public void StartGame()
         {
+            CalculateMaxDropAndAscend();
             keepSpawningPipes = true;
             timer = 0f;
             CreatePipe(SPAWN_PIPE_POSITION_X, latestY, gapSize);
@@ -86,7 +95,8 @@ namespace FlappyBirdPlusPlus
                 timer -= timerMax;
                 if (keepSpawningPipes)
                 {
-                    CreatePipe(SPAWN_PIPE_POSITION_X, latestY, gapSize);
+                    CalculatePipeY(); // decide where to place the pipe (based on where the previous one was placed)
+                    CreatePipe(SPAWN_PIPE_POSITION_X, latestY, gapSize);                    
                 }
             }
         }
@@ -137,9 +147,18 @@ namespace FlappyBirdPlusPlus
             return avaliablePipes[selectedPipeIndex];
         }
 
+        private void CalculatePipeY()
+        {
+            float minimumPossibleY = Mathf.Max(latestY + maxYDrop, MIN_PIPE_Y + gapSize * 0.5f);
+            float maximumPossibleY = Mathf.Min(latestY + maxYAscend, MAX_PIPE_Y - gapSize * 0.5f);
+            latestY = Random.Range(minimumPossibleY, maximumPossibleY);
+        }
+
         private void CalculateMaxDropAndAscend()
         {
-
+            // 0.95f to compensate for the fact that human players are not a perfect flappy bird playing algorithm // the rest is the effect of calculating how many times the bird can ascend //10f instead of 9.8f to account for drag // * 2f to give a time window between taps to not accidentally use a bomb
+            maxYAscend = 0.95f * timerMax * (playerController.FlapVelocity - 0.5f * playerController.BirdRigidbody.gravityScale * 10f * 2f * playerController.TimeForDoubleTap);
+            maxYDrop = 0.95f * timerMax * (1.1f * playerController.FlapVelocity - 0.5f * playerController.BirdRigidbody.gravityScale * 10f * timerMax); // can be negative since we will be randomizing the number anyways
         }
 
         #endregion
