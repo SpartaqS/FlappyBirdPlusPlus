@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a903c49583d9ac14b8a5bdabad2a9fef, type: 3}
-  m_Name: GameConfig
+  m_Name: GameSettings
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 7966794700511659761, guid: 415f39bb136bf5b4e8b514a892e8da4c,
     type: 3}
-  birdColor: {r: 1, g: 0.9960938, b: 0.9960938, a: 1}
+  birdColor: {r: 1, g: 0, b: 0, a: 1}
   speed: 50
   flapVelocity: 100
   gravityScale: 20

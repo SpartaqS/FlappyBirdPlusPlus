@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.RemoteConfig;
 
-using System.Linq;
+using UnityEngine.Analytics;
+//using System.Linq;
 
 namespace FlappyBirdPlusPlus
 {
@@ -22,7 +23,7 @@ namespace FlappyBirdPlusPlus
             
         }
 
-        public int birdColor;
+        public string birdColor;
 
         private void Awake()
         {
@@ -37,23 +38,30 @@ namespace FlappyBirdPlusPlus
             switch (configResponse.requestOrigin)
             {
                 case ConfigOrigin.Default:
-                    Debug.Log("Default");
                     break;
                 case ConfigOrigin.Cached:
-                    Debug.Log("Cached");
                     break;
                 case ConfigOrigin.Remote:
-                    Debug.Log("Remote - loading");
-                    birdColor = 0;
-                    birdColor = ConfigManager.appConfig.GetInt("birdColor");
+                    birdColor = ConfigManager.appConfig.GetString("BirdColor");
 
-                    float red = (birdColor / (Mathf.Pow(256f,2)))/ 255f;
-                    float green = ((birdColor / 256) % 256) / 255f;
-                    float blue = (birdColor % 256)/ 255f;
-
-                    Color loadedBirdColor = new Color(red , green, blue, 1f);
-
-                    gameSettings.ApplyRemoteConfig(loadedBirdColor);
+                    Color loadedBirdColor;
+                    if (ColorUtility.TryParseHtmlString(birdColor, out loadedBirdColor))
+                    {
+                        if (AnalyticsSessionInfo.sessionElapsedTime < 10000f)
+                        {
+                            AnalyticsResult analyticsResult = Analytics.CustomEvent("Bird Color", new Dictionary<string, object>{ { "Hex Value:", birdColor } });
+                        }
+                        gameSettings.ApplyRemoteConfig(loadedBirdColor);
+                    }
+                    else // there was an error when loading the color (fall back to the untinted bird variant)
+                    {
+                        if (AnalyticsSessionInfo.sessionElapsedTime < 10000f)
+                        {
+                            loadedBirdColor = new Color(1f, 1f, 1f, 1f);
+                            AnalyticsResult analyticsResult = Analytics.CustomEvent("Bird Color", new Dictionary<string, object> { { "Not Obtained (default)", birdColor } });
+                        }                        
+                        gameSettings.ApplyRemoteConfig(loadedBirdColor);
+                    }
                     break;                    
             }            
         }

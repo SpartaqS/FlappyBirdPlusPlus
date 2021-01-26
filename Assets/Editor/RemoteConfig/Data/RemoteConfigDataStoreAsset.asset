@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rsKeyList:
   - metadata:
-      entityId: 239bee88-698d-43c2-b747-2bd17a8ac147
+      entityId: 90b7c72c-187c-4381-979e-20f4341f7da2
     rs:
-      key: birdColor
-      type: int
-      value: 0
+      key: BirdColor
+      type: string
+      value: '#ff00ff'
   rsLastCachedKeyList:
   - metadata:
-      entityId: 239bee88-698d-43c2-b747-2bd17a8ac147
+      entityId: 90b7c72c-187c-4381-979e-20f4341f7da2
     rs:
-      key: birdColor
-      type: int
-      value: 0
+      key: BirdColor
+      type: string
+      value: '#ff00ff'
   configId: 83c0b8cd-4c53-4329-9168-d4e2f11c14f7
   currentEnvironmentId: 3c465105-2c15-4637-aad8-260eeed563c0
   environments:
@@ -42,69 +42,69 @@ MonoBehaviour:
     createdAt: 2021-01-26T10:59:32Z
     updatedAt: 2021-01-26T10:59:32Z
   rulesList:
-  - id: d786496d-cb31-4def-b82b-1cea3f71bce9
+  - id: fd73caef-ca47-4a58-b3b1-05f065e1e48e
     name: BirdIsRed
-    enabled: 1
+    enabled: 0
     priority: 1000
     type: 
-    condition: true
-    rolloutPercentage: 50
+    condition: 
+    rolloutPercentage: 35
     value:
     - metadata:
-        entityId: 239bee88-698d-43c2-b747-2bd17a8ac147
+        entityId: 90b7c72c-187c-4381-979e-20f4341f7da2
       rs:
-        key: birdColor
-        type: int
-        value: 16711680
+        key: BirdColor
+        type: string
+        value: '#ff0000'
     startDate: 
     endDate: 
-  - id: f288c2a2-df76-4b2e-aba6-722591f3db87
+  - id: 7b776228-d2ad-498e-a6bb-b01903d7e707
     name: BirdIsBlue
     enabled: 1
     priority: 1000
     type: 
-    condition: true
-    rolloutPercentage: 50
+    condition: 
+    rolloutPercentage: 35
     value:
     - metadata:
-        entityId: 239bee88-698d-43c2-b747-2bd17a8ac147
+        entityId: 90b7c72c-187c-4381-979e-20f4341f7da2
       rs:
-        key: birdColor
-        type: int
-        value: 255
+        key: BirdColor
+        type: string
+        value: '#0000ff'
     startDate: 
     endDate: 
   lastCachedRulesList:
-  - id: d786496d-cb31-4def-b82b-1cea3f71bce9
+  - id: fd73caef-ca47-4a58-b3b1-05f065e1e48e
     name: BirdIsRed
-    enabled: 1
+    enabled: 0
     priority: 1000
     type: 
-    condition: true
-    rolloutPercentage: 50
+    condition: 
+    rolloutPercentage: 35
     value:
     - metadata:
-        entityId: 239bee88-698d-43c2-b747-2bd17a8ac147
+        entityId: 90b7c72c-187c-4381-979e-20f4341f7da2
       rs:
-        key: birdColor
-        type: int
-        value: 16711680
+        key: BirdColor
+        type: string
+        value: '#ff0000'
     startDate: 
     endDate: 
-  - id: f288c2a2-df76-4b2e-aba6-722591f3db87
+  - id: 7b776228-d2ad-498e-a6bb-b01903d7e707
     name: BirdIsBlue
     enabled: 1
     priority: 1000
     type: 
-    condition: true
-    rolloutPercentage: 50
+    condition: 
+    rolloutPercentage: 35
     value:
     - metadata:
-        entityId: 239bee88-698d-43c2-b747-2bd17a8ac147
+        entityId: 90b7c72c-187c-4381-979e-20f4341f7da2
       rs:
-        key: birdColor
-        type: int
-        value: 255
+        key: BirdColor
+        type: string
+        value: '#0000ff'
     startDate: 
     endDate: 
   addedRulesIDs: []
