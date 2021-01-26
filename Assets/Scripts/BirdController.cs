@@ -35,6 +35,8 @@ namespace FlappyBirdPlusPlus
             birdRigidbody.gravityScale = gameSettings.GravityScale;
             LeanTween.move(gameObject, initialPosition, 1f);// when finished start the game I guess            
 
+            GetComponent<SpriteRenderer>().color = gameSettings.BirdColor;
+
             startGame += StartGameMethod;
             startGame += HintImageMethod;
             startGame += EnableControl;            

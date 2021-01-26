@@ -22,6 +22,6 @@ MonoBehaviour:
     pipeColor:
       serializedVersion: 2
       rgba: 4294911744
-  minimumScore: 0
-  restrictMaximumScore: 0
-  maximumScore: 2147483647
+  minimumScore: 11
+  restrictMaximumScore: 1
+  maximumScore: 15

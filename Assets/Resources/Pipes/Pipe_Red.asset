@@ -22,8 +22,6 @@ MonoBehaviour:
     pipeColor:
       serializedVersion: 2
       rgba: 4278190335
-  minimumScore: 0
-  restrictMaximumScore: 0
-  maximumScore: 2147483647
-  customSpawnWeight: 0
-  weight: 1
+  minimumScore: 5
+  restrictMaximumScore: 1
+  maximumScore: 10

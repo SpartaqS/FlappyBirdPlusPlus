@@ -156,7 +156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b300f57a9eeb0e409f2441ca8ef45a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FLAP_AMOUNT: 100
   TIME_FOR_DOUBLE_TAP: 0.3
   timeSinceLastTap: 0
   quickTapCount: 0

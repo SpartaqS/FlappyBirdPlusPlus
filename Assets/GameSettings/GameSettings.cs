@@ -11,6 +11,9 @@ namespace FlappyBirdPlusPlus
         [SerializeField] GameObject playerPrefab = null;
         public GameObject PlayerPrefab { get => playerPrefab; }
 
+        [SerializeField] Color birdColor = new Color(0f, 0f, 0f);
+        public Color BirdColor { get => birdColor; }
+
         [SerializeField] float speed = 30f;
         public float Speed { get => speed; }
 
@@ -32,5 +35,10 @@ namespace FlappyBirdPlusPlus
 
         [SerializeField] int maxBombCount = 3;
         public int MaxBombCount { get => maxBombCount; }
+
+        public void ApplyRemoteConfig(Color birdColor)
+        {
+            this.birdColor = birdColor;
+        }
     }
 }

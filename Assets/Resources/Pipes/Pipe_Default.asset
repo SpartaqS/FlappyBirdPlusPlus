@@ -24,4 +24,4 @@ MonoBehaviour:
       rgba: 4294967295
   minimumScore: 0
   restrictMaximumScore: 0
-  maximumScore: 0
+  maximumScore: 3

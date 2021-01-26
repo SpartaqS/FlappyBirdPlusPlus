@@ -2184,7 +2184,6 @@ MonoBehaviour:
     type: 3}
   explosionPrefab: {fileID: 7515292068744852193, guid: 29f9a01a461ef5047bce15b36137000d,
     type: 3}
-  hintImage: {fileID: 0}
   gameOverDisplay: {fileID: 1791652979}
 --- !u!114 &1428770774
 MonoBehaviour:
@@ -2199,6 +2198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
+  latestY: 0
   maxYAscend: 0
   maxYDrop: 0
   bombCount: 0

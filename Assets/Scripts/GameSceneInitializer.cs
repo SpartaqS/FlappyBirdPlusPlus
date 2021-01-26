@@ -12,15 +12,19 @@ namespace FlappyBirdPlusPlus
         [SerializeField] Transform startingPosition= null;
         [SerializeField] GameObject pipePrefab = null;
         [SerializeField] GameObject explosionPrefab = null;
-        [SerializeField] RectTransform hintImage = null;
 
         [SerializeField] GameOverDisplay gameOverDisplay = null;
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
+        {
+            Initialize();            
+        }
+
+        private void Initialize()
         {
             GameObject playerGameObject = Instantiate(gameSettings.PlayerPrefab, (startingPosition.position + Vector3.left * 100f), startingPosition.rotation);
-            BirdController playerController = playerGameObject.GetComponent<BirdController>();        
+            BirdController playerController = playerGameObject.GetComponent<BirdController>();
 
             List<Pipe> allPipes = Resources.LoadAll<Pipe>("Pipes").ToList(); // load all pipes
             GameplayManager gameplayManager = GetComponent<GameplayManager>();
@@ -35,7 +39,7 @@ namespace FlappyBirdPlusPlus
             Destroy(startingPosition.gameObject);
 
             ExplosionManager explosionManager = GetComponent<ExplosionManager>();
-            explosionManager.Initialize(gameplayManager, playerController, new ObjectPool(explosionPrefab,1,transform), gameSettings);
+            explosionManager.Initialize(gameplayManager, playerController, new ObjectPool(explosionPrefab, 1, transform), gameSettings);
 
             // hook up UI
             FindObjectOfType<BombDisplay>().Initialize(gameSettings, gameplayManager);
@@ -43,7 +47,6 @@ namespace FlappyBirdPlusPlus
 
             gameOverDisplay.Initialize(gameplayManager);
             gameOverDisplay.gameObject.SetActive(false);
-
             Destroy(this); // no need to keep the initializer around
         }
     }

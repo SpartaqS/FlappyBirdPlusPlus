@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 7966794700511659761, guid: 415f39bb136bf5b4e8b514a892e8da4c,
     type: 3}
+  birdColor: {r: 1, g: 0.9960938, b: 0.9960938, a: 1}
   speed: 50
   flapVelocity: 100
   gravityScale: 20
