@@ -25,14 +25,6 @@ namespace FlappyBirdPlusPlus
         /* Pipe spawning parameters */
         bool keepSpawningPipes = false;
 
-        const float MAX_PIPE_Y = 88f;
-        const float MIN_PIPE_Y = -63f;
-
-        const float PIPE_WIDTH = 26f;
-        const float PIPE_HEIGHT = 160f;
-
-        const float DISPOSE_PIPE_POSITION_X = -100f;
-        const float SPAWN_PIPE_POSITION_X = 100f;
         [SerializeField]
         float latestY;
         float gapSize;
@@ -50,8 +42,7 @@ namespace FlappyBirdPlusPlus
         [SerializeField] int bombCount;
         [SerializeField] int bombProgress;
         int scoreForExtraBomb = 2;
-        int maxBombCount = 3;
-        const float EXPLOSION_MAGNITUDE = 10000f;
+        int maxBombCount = 3;        
 
         public void Initialize(BirdController playerController, List<Pipe> pipeTypes, ObjectPool pipeObjectPool, float birdPositionX, GameSettings gameSettings)
         {
@@ -62,9 +53,7 @@ namespace FlappyBirdPlusPlus
 
             this.pipeTypes = pipeTypes;       
             this.pipeObjectPool = pipeObjectPool;
-            this.birdPositionX = birdPositionX;
-
-            Debug.Log("Loaded " + pipeTypes.Count + " distinct pipe types");
+            this.birdPositionX = birdPositionX;            
 
             speed = gameSettings.Speed;
             timerMax = gameSettings.PipeSpawnTimer;
@@ -82,7 +71,7 @@ namespace FlappyBirdPlusPlus
             CalculateMaxDropAndAscend();
             keepSpawningPipes = true;
             timer = 0f;
-            CreatePipe(SPAWN_PIPE_POSITION_X, latestY, gapSize);
+            CreatePipe(GameSceneConstants.SPAWN_PIPE_POSITION_X, latestY, gapSize);
         }
 
         private void Update()
@@ -96,7 +85,7 @@ namespace FlappyBirdPlusPlus
                 if (keepSpawningPipes)
                 {
                     CalculatePipeY(); // decide where to place the pipe (based on where the previous one was placed)
-                    CreatePipe(SPAWN_PIPE_POSITION_X, latestY, gapSize);                    
+                    CreatePipe(GameSceneConstants.SPAWN_PIPE_POSITION_X, latestY, gapSize);                    
                 }
             }
         }
@@ -123,10 +112,10 @@ namespace FlappyBirdPlusPlus
             currentSprite.sprite = pipeToCreate.topPipe.PipeSprite;
             currentSprite.color = pipeToCreate.topPipe.PipeColor;
 
-            topPipe.transform.localPosition = new Vector3(0f, PIPE_HEIGHT/2 + gapSize / 2, 0f);
+            topPipe.transform.localPosition = new Vector3(0f, GameSceneConstants.PIPE_HEIGHT/2 + gapSize / 2, 0f);
             /*topPipe.transform.rotation = Quaternion.identity;
             topPipe.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;*/
-            bottomPipe.transform.localPosition = new Vector3(0f, -PIPE_HEIGHT/2 - gapSize / 2, 0f);
+            bottomPipe.transform.localPosition = new Vector3(0f, -GameSceneConstants.PIPE_HEIGHT/2 - gapSize / 2, 0f);
 
             activePipes.Add(new ActivePipe(newPipe.transform));
         }
@@ -149,8 +138,8 @@ namespace FlappyBirdPlusPlus
 
         private void CalculatePipeY()
         {
-            float minimumPossibleY = Mathf.Max(latestY + maxYDrop, MIN_PIPE_Y + gapSize * 0.5f);
-            float maximumPossibleY = Mathf.Min(latestY + maxYAscend, MAX_PIPE_Y - gapSize * 0.5f);
+            float minimumPossibleY = Mathf.Max(latestY + maxYDrop, GameSceneConstants.MIN_PIPE_Y + gapSize * 0.5f);
+            float maximumPossibleY = Mathf.Min(latestY + maxYAscend, GameSceneConstants.MAX_PIPE_Y - gapSize * 0.5f);
             latestY = Random.Range(minimumPossibleY, maximumPossibleY);
         }
 
@@ -173,10 +162,10 @@ namespace FlappyBirdPlusPlus
                 
                 if(!currentPipe.hasBeenPassed && currentPipe.representedPipe.position.x <= birdPositionX)
                 {
-                    if (!playerController.Renderer.isVisible) // player is off-screen so they should have hit the pipe
+                    if (playerController.transform.position.y > GameSceneConstants.CAMERA_SIZE) // player is off-screen so they should have hit the pipe
                     {                        
                         playerController.TryToDie();
-                        playerController.transform.position = new Vector3(currentPipe.representedPipe.position.x - PIPE_WIDTH * 0.75f, playerController.transform.position.y, playerController.transform.position.z); // move the bird to "simulate" being hit by the pipe collider
+                        playerController.transform.position = new Vector3(currentPipe.representedPipe.position.x - GameSceneConstants.PIPE_WIDTH * 0.75f, playerController.transform.position.y, playerController.transform.position.z); // move the bird to "simulate" being hit by the pipe collider
                     }
                     else
                     {
@@ -187,7 +176,7 @@ namespace FlappyBirdPlusPlus
                     currentPipe.hasBeenPassed = true;
                 }
 
-                if (currentPipe.representedPipe.position.x <= DISPOSE_PIPE_POSITION_X)
+                if (currentPipe.representedPipe.position.x <= GameSceneConstants.DISPOSE_PIPE_POSITION_X)
                 {
                     activePipes.RemoveAt(i);
                     pipeObjectPool.ReturnObjectToPool(currentPipe.representedPipe.gameObject);
@@ -229,7 +218,7 @@ namespace FlappyBirdPlusPlus
 
                     Vector2 DifferenceVector = topPipe.position - new Vector2(playerController.transform.position.x, playerController.transform.position.y);
 
-                    topPipe.AddForce(DifferenceVector * EXPLOSION_MAGNITUDE / Mathf.Pow(DifferenceVector.magnitude, 1), ForceMode2D.Force);*/
+                    topPipe.AddForce(DifferenceVector * GameSceneConstants.EXPLOSION_MAGNITUDE / Mathf.Pow(DifferenceVector.magnitude, 1), ForceMode2D.Force);*/
                 }
             }
         }

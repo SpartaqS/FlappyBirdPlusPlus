@@ -132,7 +132,7 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7966794700511659761}
   m_BodyType: 0
-  m_Simulated: 1
+  m_Simulated: 0
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TIME_FOR_DOUBLE_TAP: 0.3
-  timeSinceLastTap: 0
+  timeSinceLastTap: 0.6
   quickTapCount: 0
 --- !u!198 &2185930525744327067
 ParticleSystem:
