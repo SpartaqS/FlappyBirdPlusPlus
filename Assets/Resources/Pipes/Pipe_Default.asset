@@ -23,5 +23,5 @@ MonoBehaviour:
       serializedVersion: 2
       rgba: 4294967295
   minimumScore: 0
-  restrictMaximumScore: 0
-  maximumScore: 3
+  restrictMaximumScore: 1
+  maximumScore: 9
