@@ -42,9 +42,12 @@ namespace FlappyBirdPlusPlus
         [SerializeField] int bombCount;
         [SerializeField] int bombProgress;
         int scoreForExtraBomb = 2;
-        int maxBombCount = 3;        
+        int maxBombCount = 3;
 
-        public void Initialize(BirdController playerController, List<Pipe> pipeTypes, ObjectPool pipeObjectPool, float birdPositionX, GameSettings gameSettings)
+        /* Background scrollers */
+        List<BackgroundScroller> backgroundScrollers = new List<BackgroundScroller>();
+
+        public void Initialize(BirdController playerController, List<Pipe> pipeTypes, ObjectPool pipeObjectPool, float birdPositionX, GameSettings gameSettings, List<BackgroundScroller> backgroundScrollers)
         {
             this.playerController = playerController;
 
@@ -63,7 +66,9 @@ namespace FlappyBirdPlusPlus
 
             score = 0;
             latestY = 0f;
-            gapSize = gameSettings.PipeGapSize;    
+            gapSize = gameSettings.PipeGapSize;
+
+            this.backgroundScrollers = backgroundScrollers;
         }
 
         public void StartGame()
@@ -72,6 +77,7 @@ namespace FlappyBirdPlusPlus
             keepSpawningPipes = true;
             timer = 0f;
             CreatePipe(GameSceneConstants.SPAWN_PIPE_POSITION_X, latestY, gapSize);
+            UpdateBackroundMovement();
         }
 
         private void Update()
@@ -198,6 +204,19 @@ namespace FlappyBirdPlusPlus
                 updateBombProgress?.Invoke(bombProgress, bombCount);
             }
         }
+        #endregion
+
+        #region Background Management
+
+        private void UpdateBackroundMovement()
+        {
+            foreach( BackgroundScroller backgroundScroller in backgroundScrollers)
+            {
+                backgroundScroller.Speed = speed;
+                backgroundScroller.KeepMoving = keepSpawningPipes;
+            }
+        }
+
         #endregion
 
         #region Bomb Handling

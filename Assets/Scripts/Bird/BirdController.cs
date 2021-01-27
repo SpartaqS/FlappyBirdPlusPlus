@@ -10,7 +10,7 @@ namespace FlappyBirdPlusPlus
     {
         bool isAlive = false;//keep track whether we have died or not
 
-        private Action startGame;
+        public Action startGame;
         public Action onDeath;
         public Action tryUseBomb;
         private IInputWrapper inputWrapper = null;

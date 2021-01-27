@@ -35,8 +35,15 @@ namespace FlappyBirdPlusPlus
             LeanTween.alpha(hintImage.GetComponent<RectTransform>(), 1f, 1f).setDelay(3f);
             HumanInputWrapper inputWrapper = new HumanInputWrapper();
 
+            List<BackgroundScroller> backgroundScrollers = FindObjectsOfType<BackgroundScroller>().ToList();
+
+            foreach(BackgroundScroller backgroundScroller in backgroundScrollers)
+            {
+                backgroundScroller.Initialize(playerController);
+            }
+
             playerController.Initialize(inputWrapper, gameSettings, startingPosition.transform.position, gameplayManager.StartGame, hintImage.Hide);
-            gameplayManager.Initialize(playerController, allPipes, new ObjectPool(pipePrefab, 3, transform), startingPosition.transform.position.x, gameSettings);
+            gameplayManager.Initialize(playerController, allPipes, new ObjectPool(pipePrefab, 3, transform), startingPosition.transform.position.x, gameSettings, backgroundScrollers);
             // Initialize the GameplayManager (I guess just call "initialize") - the gameplay manager will "unpause" the bird when it is done doing stuff
             // pass the playerGameObject to the GameplayManager so that it can have it
             Destroy(startingPosition.gameObject);
