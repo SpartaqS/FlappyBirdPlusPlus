@@ -9,8 +9,9 @@ namespace FlappyBirdPlusPlus
     public class BirdController : MonoBehaviour
     {
         bool isAlive = false;//keep track whether we have died or not
-
+       
         public Action startGame;
+        public Action onFlap;
         public Action onDeath;
         public Action tryUseBomb;
         private IInputWrapper inputWrapper = null;
@@ -82,6 +83,7 @@ namespace FlappyBirdPlusPlus
                     }
 
                     timeSinceLastTap = 0;
+                    onFlap.Invoke();
                 }
             }
             else if (!birdRigidbody.simulated) // Have not started the game yet
@@ -91,6 +93,7 @@ namespace FlappyBirdPlusPlus
                     startGame?.Invoke();
                     birdRigidbody.velocity = Vector2.up * flapVelocity;
                     startGame = null;
+                    onFlap.Invoke();
                 }
             }
         }

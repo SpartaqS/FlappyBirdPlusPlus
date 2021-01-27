@@ -57,6 +57,9 @@ namespace FlappyBirdPlusPlus
 
             gameOverDisplay.Initialize(gameplayManager);
             gameOverDisplay.gameObject.SetActive(false);
+
+            FindObjectOfType<AudioManager>().Initialize(playerController, gameplayManager);
+
             Destroy(this); // no need to keep the initializer around
         }
     }
