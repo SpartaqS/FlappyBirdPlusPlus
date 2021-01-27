@@ -9,7 +9,16 @@ namespace FlappyBirdPlusPlus
     {
         public bool IsTapped()
         {
-            return Input.GetKeyDown(KeyCode.Mouse0);
+            bool isATap;
+            if (Application.isEditor)
+            {
+                isATap = Input.GetKeyDown(KeyCode.Mouse0);
+            }
+            else
+            {
+                isATap = Input.touchCount > 0 ? Input.GetTouch(0).phase == TouchPhase.Began : false;
+            }
+            return isATap;
         }
     }
 }

@@ -16,8 +16,8 @@ namespace FlappyBirdPlusPlus
         private IInputWrapper inputWrapper = null;
         private Rigidbody2D birdRigidbody = null;
         public Rigidbody2D BirdRigidbody { get => birdRigidbody; }
-        private new Renderer renderer = null;
-        public Renderer Renderer { get => renderer; }
+        private Renderer birdRenderer = null;
+        public Renderer Renderer { get => birdRenderer; }
 
         private float flapVelocity = 100f;
         public float FlapVelocity { get => flapVelocity; }
@@ -33,7 +33,7 @@ namespace FlappyBirdPlusPlus
         {
             this.inputWrapper = inputWrapper;
             birdRigidbody = GetComponent<Rigidbody2D>();
-            renderer = GetComponent<Renderer>();
+            birdRenderer = GetComponent<Renderer>();
             timeSinceLastTap = TIME_FOR_DOUBLE_TAP * 2; // initialize the time so that the first tap ever is not read as double tap (so that we can give the bird some initial bombs if we want)
             quickTapCount = 0;
 
