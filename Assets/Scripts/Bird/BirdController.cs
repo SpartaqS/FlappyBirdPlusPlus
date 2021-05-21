@@ -83,7 +83,7 @@ namespace FlappyBirdPlusPlus
                     }
 
                     timeSinceLastTap = 0;
-                    onFlap.Invoke();
+                    onFlap?.Invoke();
                 }
             }
             else if (!birdRigidbody.simulated) // Have not started the game yet
@@ -93,7 +93,7 @@ namespace FlappyBirdPlusPlus
                     startGame?.Invoke();
                     birdRigidbody.velocity = Vector2.up * flapVelocity;
                     startGame = null;
-                    onFlap.Invoke();
+                    onFlap?.Invoke();
                 }
             }
         }
